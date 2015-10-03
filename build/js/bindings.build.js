@@ -22,8 +22,6 @@ var bindings = function bindings() /*extendProto*/{
       return arg;
     });
 
-    //if not this, create a context. if context exists: use that
-
     var func = eval("" + args.shift());
 
     if (context) {
@@ -31,10 +29,9 @@ var bindings = function bindings() /*extendProto*/{
         func(element, contexts[context]);
       } else {
         contexts[context] = {};
-        contexts[context][func.name] = func.apply(undefined, _toConsumableArray(args));
+        contexts[context][func.name] = func.apply(contexts[context], args);
       }
     } else {
-
       if (func) {
         func.apply(undefined, _toConsumableArray(args));
       }

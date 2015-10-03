@@ -25,15 +25,15 @@ functions.transformer = function transformer(element) {
   var el = element;
   return {
     background: function background(value) {
-      console.log(value);
       el.style["background-color"] = value;
     },
     textCont: function textCont(value) {
       el.textContent = value;
     },
     width: function width(value) {
+      this.updateChildAttribute(value);
       el.style.width = value;
-    },
+    }.bind(this),
     height: function height(value) {
       el.style.height = value;
     }
@@ -42,6 +42,9 @@ functions.transformer = function transformer(element) {
 
 functions.updateParent = function updateParent(element, context) {
   context.transformer.background("rgba(255,143,0,1)");
+  context.updateChildAttribute = function(value) {
+    element.setAttribute("widthValue", value);
+  };
   element.addEventListener("keyup", function() {
     context.transformer.height(this.value + "px");
     context.transformer.width(this.value + "px");
