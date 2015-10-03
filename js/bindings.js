@@ -4,19 +4,36 @@
 let bindings = function bindings(/*extendProto*/) {
 
   let elements = Array.from(document.querySelectorAll("[bindings]"));
+  let contexts = {};
 
   elements.forEach(function(element) {
     let args = element.getAttribute("bindings");
-    args = args.split(",").map((arg) => arg.trim());
+    let context = element.getAttribute("context");
+    args = args.split(",").map(function(arg) {
+      arg = arg.trim();
+      if (arg === "this") {
+        return element;
+      }
+      return arg;
+    });
 
-    if (args[1] === "this") {
-      args[1] = element;
-    }
     //if not this, create a context. if context exists: use that
 
+
     let func = eval(`${args.shift()}`);
-    if (func) {
-      func(...args);
+
+    if (context) {
+      if (contexts[context]) {
+        func(element, contexts[context]);
+      } else {
+        contexts[context] = {};
+        contexts[context][func.name] = func(...args);
+      }
+    } else {
+
+      if (func) {
+        func(...args);
+      }
     }
 
   });

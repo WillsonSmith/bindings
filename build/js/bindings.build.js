@@ -9,21 +9,35 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var bindings = function bindings() /*extendProto*/{
 
   var elements = Array.from(document.querySelectorAll("[bindings]"));
+  var contexts = {};
 
   elements.forEach(function (element) {
     var args = element.getAttribute("bindings");
+    var context = element.getAttribute("context");
     args = args.split(",").map(function (arg) {
-      return arg.trim();
+      arg = arg.trim();
+      if (arg === "this") {
+        return element;
+      }
+      return arg;
     });
 
-    if (args[1] === "this") {
-      args[1] = element;
-    }
     //if not this, create a context. if context exists: use that
 
     var func = eval("" + args.shift());
-    if (func) {
-      func.apply(undefined, _toConsumableArray(args));
+
+    if (context) {
+      if (contexts[context]) {
+        func(element, contexts[context]);
+      } else {
+        contexts[context] = {};
+        contexts[context][func.name] = func.apply(undefined, _toConsumableArray(args));
+      }
+    } else {
+
+      if (func) {
+        func.apply(undefined, _toConsumableArray(args));
+      }
     }
   });
 

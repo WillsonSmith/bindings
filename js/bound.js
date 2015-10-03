@@ -14,9 +14,36 @@ functions.bindBoxValue = function bindBoxValue(element) {
     content: node.textContent
   };
 
-  textBox.addEventListener("keyup", function(e) {
+  textBox.addEventListener("keyup", function() {
     nodeInfo.content = this.value;
     node.textContent = nodeInfo.content;
   });
 
+};
+
+functions.transformer = function transformer(element) {
+  var el = element;
+  return {
+    background: function background(value) {
+      console.log(value);
+      el.style["background-color"] = value;
+    },
+    textCont: function textCont(value) {
+      el.textContent = value;
+    },
+    width: function width(value) {
+      el.style.width = value;
+    },
+    height: function height(value) {
+      el.style.height = value;
+    }
+  };
+};
+
+functions.updateParent = function updateParent(element, context) {
+  context.transformer.background("rgba(255,143,0,1)");
+  element.addEventListener("keyup", function() {
+    context.transformer.height(this.value + "px");
+    context.transformer.width(this.value + "px");
+  });
 };
