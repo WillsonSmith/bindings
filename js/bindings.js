@@ -3,7 +3,7 @@
 
 let bindings = function bindings(/*extendProto*/) {
 
-  let elements = Array.from(document.querySelectorAll("[bindings]"));
+  let elements = [].slice.call(document.querySelectorAll("[bindings]"));
   let contexts = {};
 
   elements.forEach(function(element) {

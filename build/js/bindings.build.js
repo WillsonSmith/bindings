@@ -8,7 +8,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var bindings = function bindings() /*extendProto*/{
 
-  var elements = Array.from(document.querySelectorAll("[bindings]"));
+  var elements = [].slice.call(document.querySelectorAll("[bindings]"));
   var contexts = {};
 
   elements.forEach(function (element) {
