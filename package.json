@@ -1,0 +1,29 @@
+{
+  "name": "bindings",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "watch": {
+    "build": "js/bindings.js",
+    "build-extras": "js/sample.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/browserify -t [babelify] js/bindings.js > build/js/bindings.build.js",
+    "build-extras": "./node_modules/.bin/browserify -t [babelify] js/sample.js > js/sample.build.js",
+    "uglify": "uglifyjs build/js/bindings.build.js -o build/js/bindings.build.ugly.js",
+    "watch": "npm-watch"
+  },
+  "author": "= <=> (https://willsonsmith.com)",
+  "license": "MIT",
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "eslint": "^1.6.0",
+    "watchify": "^3.4.0"
+  },
+  "dependencies": {
+    "babel": "^5.8.23",
+    "lodash": "^3.10.1"
+  }
+}
