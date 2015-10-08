@@ -1,36 +1,28 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
-		<title></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta charset="utf-8">
+  <head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta charset="utf-8">
 
-	</head>
+  </head>
 
-	<body>
-	<div id="container" class="container">
-	  <div bindings="functions.bound, this, 500px, 500px"></div>
-    <div bindings="functions.setContent, this, this content was added with a binding."></div>
-    <div bindings="functions.bindBoxValue, this">
+  <body>
+  <div id="container" class="container">
 
-      <div>
-        <p>test</p>
-      </div>
-      <div>
-        <input type="text" />
-      </div>
-    </div>
-
-		<p>context binding:</p>
-		<div bindings="functions.transformer, this" context="transformations">
-			<input type="text" bindings="functions.updateParent" context="transformations"/>
-		</div>
-	</div>
+	  <div bindings="samples.numberHandler, this" context="numbers">
+	    0
+	  </div>
+	  <div>
+	    <button bindings="samples.incrementButton, this, numberHandler" context="numbers">Increment</button>
+			<button bindings="samples.decrementButton, this, numberHandler" context="numbers">Decrement</button>
+	  </div>
+  </div>
 
 
-  <script type="text/javascript" src="js/bound.js"></script>
+  <script type="text/javascript" src="js/sample.build.js"></script>
   <script type="text/javascript" src="build/js/bindings.build.js"></script>
-	</body>
+  </body>
 </html>

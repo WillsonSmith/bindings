@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "watch": {
-    "build": "js/bindings.js"
+    "build": "js/bindings.js",
+    "build-extras": "js/sample.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/browserify -t [babelify] js/bindings.js > build/js/bindings.build.js",
+    "build-extras": "./node_modules/.bin/browserify -t [babelify] js/sample.js > js/sample.build.js",
     "uglify": "uglifyjs build/js/bindings.build.js -o build/js/bindings.build.ugly.js",
     "watch": "npm-watch"
   },

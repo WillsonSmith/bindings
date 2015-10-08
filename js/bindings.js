@@ -1,6 +1,5 @@
 //require("babel/polyfill");
 //let assign = require("lodash/object/assign");
-
 let bindings = function bindings(/*extendProto*/) {
 
   let elements = [].slice.call(document.querySelectorAll("[bindings]"));
@@ -20,12 +19,10 @@ let bindings = function bindings(/*extendProto*/) {
     let func = eval(`${args.shift()}`);
 
     if (context) {
-      if (contexts[context]) {
-        func(element, contexts[context]);
-      } else {
+      if (!contexts[context]) {
         contexts[context] = {};
-        contexts[context][func.name] = func.apply(contexts[context], args);
       }
+      func(...args, contexts[context]);
     } else {
       if (func) {
         func(...args);
