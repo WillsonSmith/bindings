@@ -1,6 +1,5 @@
 //require("babel/polyfill");
-//let assign = require("lodash/object/assign");
-let bindings = function bindings(/*extendProto*/) {
+let bindings = function bindings() {
 
   let elements = [].slice.call(document.querySelectorAll("[bindings]"));
   let contexts = {};
@@ -38,11 +37,8 @@ let bindings = function bindings(/*extendProto*/) {
     }
   };
 
-  // if (extendProto) {
-  //   assign(prototype, extendProto);
-  // }
   return prototype;
 
 };
 
-let boundDocument = bindings();
+bindings();

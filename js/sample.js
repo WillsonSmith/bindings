@@ -3,6 +3,7 @@ let samples = {};
 samples.numberHandler = function numberHandler(element, context) {
 
   let increment = 0;
+
   let prototype = {
     setElementValue() {
       element.textContent = increment;
@@ -18,7 +19,6 @@ samples.numberHandler = function numberHandler(element, context) {
       return increment;
     }
   };
-
   if (context) {
     context.numberHandler = prototype;
   }
