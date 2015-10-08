@@ -38,4 +38,12 @@ samples.decrementButton = function incrementButton(button, contextFunction, cont
   });
 };
 
+samples.incrementSelf = function incrementSelf(button, startValue) {
+  let increment = Number(startValue) || 0;
+  button.textContent = increment;
+  button.addEventListener("click", function() {
+    this.textContent = increment++;
+  });
+};
+
 window.samples = samples;

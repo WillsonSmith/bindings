@@ -11,13 +11,18 @@
 
   <body>
   <div id="container" class="container">
-
+    <h2>With a context</h2>
     <div bindings="samples.numberHandler, this" context="numbers">
       0
     </div>
     <div>
       <button bindings="samples.incrementButton, this, numberHandler" context="numbers">Increment</button>
       <button bindings="samples.decrementButton, this, numberHandler" context="numbers">Decrement</button>
+    </div>
+
+    <h2>Without a context</h2>
+    <div>
+      <button bindings="samples.incrementSelf, this, 5">hi</button>
     </div>
   </div>
 
