@@ -30,7 +30,9 @@ var bindings = function bindings(functionsArray) {
       }
       return arg;
     });
+
     var func = collectedFunctions[args.shift()];
+
     if (context) {
       if (!contexts[context]) {
         contexts[context] = {};
