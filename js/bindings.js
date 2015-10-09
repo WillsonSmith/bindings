@@ -46,7 +46,7 @@ let bindings = function bindings() {
       },
       set(functions) {
         functions.forEach(function(f) {
-          if (!collectedFunctions[f.name]) {
+          if (!collectedFunctions[f.name]) { //could potentially also pass a string for a name
             collectedFunctions[f.name] = f;
           }
         });

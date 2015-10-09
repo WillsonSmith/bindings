@@ -50,6 +50,7 @@ var bindings = function bindings() {
       set: function set(functions) {
         functions.forEach(function (f) {
           if (!collectedFunctions[f.name]) {
+            //could potentially also pass a string for a name
             collectedFunctions[f.name] = f;
           }
         });
