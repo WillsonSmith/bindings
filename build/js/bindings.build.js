@@ -4,12 +4,21 @@
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 
-var bindings = function bindings() {
+var bindings = function bindings(functionsArray) {
 
   var elements = [].slice.call(document.querySelectorAll("[bindings]"));
   var contexts = {};
-
   var collectedFunctions = {};
+
+  var prototype = {
+    elements: elements,
+    getBoundElements: function getBoundElements() {
+      return elements;
+    },
+    getRegisteredFunctions: function getRegisteredFunctions() {
+      return collectedFunctions;
+    }
+  };
 
   function bindElement(element) {
     var args = element.getAttribute("bindings");
@@ -21,7 +30,9 @@ var bindings = function bindings() {
       }
       return arg;
     });
+
     var func = collectedFunctions[args.shift()];
+
     if (context) {
       if (!contexts[context]) {
         contexts[context] = {};
@@ -34,30 +45,20 @@ var bindings = function bindings() {
     }
   }
 
+  function registerFunctions(functions) {
+    functions.forEach(function (f) {
+      if (!collectedFunctions[f.name]) {
+        collectedFunctions[f.name] = f;
+      }
+    });
+  }
+
   function initialize() {
+    registerFunctions(functionsArray);
     elements.forEach(bindElement);
   }
 
-  var prototype = {
-    elements: elements,
-    getBoundElements: function getBoundElements() {
-      return elements;
-    },
-    registeredFunctions: {
-      get: function get() {
-        return collectedFunctions;
-      },
-      set: function set(functions) {
-        functions.forEach(function (f) {
-          if (!collectedFunctions[f.name]) {
-            //could potentially also pass a string for a name
-            collectedFunctions[f.name] = f;
-          }
-        });
-        initialize();
-      }
-    }
-  };
+  initialize();
 
   return prototype;
 };

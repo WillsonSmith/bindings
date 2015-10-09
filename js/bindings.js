@@ -1,11 +1,18 @@
 //require("babel/polyfill");
-let bindings = function bindings() {
+let bindings = function bindings(functionsArray) {
 
   let elements = [].slice.call(document.querySelectorAll("[bindings]"));
   let contexts = {};
+  let collectedFunctions = {};
 
-  let collectedFunctions = {
-
+  let prototype = {
+    elements: elements,
+    getBoundElements() {
+      return elements;
+    },
+    getRegisteredFunctions(){
+      return collectedFunctions;
+    }
   };
 
   function bindElement(element) {
@@ -18,7 +25,9 @@ let bindings = function bindings() {
       }
       return arg;
     });
+
     let func = collectedFunctions[args.shift()];
+
     if (context) {
       if (!contexts[context]) {
         contexts[context] = {};
@@ -31,29 +40,20 @@ let bindings = function bindings() {
     }
   }
 
+  function registerFunctions(functions) {
+    functions.forEach(function(f) {
+      if (!collectedFunctions[f.name]) {
+        collectedFunctions[f.name] = f;
+      }
+    });
+  }
+
   function initialize() {
+    registerFunctions(functionsArray);
     elements.forEach(bindElement);
   }
 
-  let prototype = {
-    elements: elements,
-    getBoundElements() {
-      return elements;
-    },
-    registeredFunctions: {
-      get() {
-        return collectedFunctions;
-      },
-      set(functions) {
-        functions.forEach(function(f) {
-          if (!collectedFunctions[f.name]) { //could potentially also pass a string for a name
-            collectedFunctions[f.name] = f;
-          }
-        });
-        initialize();
-      }
-    }
-  };
+  initialize();
 
   return prototype;
 

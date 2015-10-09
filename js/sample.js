@@ -44,12 +44,14 @@ samples.incrementSelf = function incrementSelf(button, startValue) {
   let increment = Number(startValue) || 0;
   button.textContent = increment;
   button.addEventListener("click", function() {
-    this.textContent = increment++;
+    increment++;
+    this.textContent = increment;
   });
 };
 
-window.samples = samples;
-boundDocument = bindings();
-boundDocument.registeredFunctions.set([samples.numberHandler, samples.incrementButton, samples.decrementButton, samples.incrementSelf]);
+let functionsArray = Object.keys(samples).map(function(key) {
+  return samples[key];
+});
+
+boundDocument = bindings(functionsArray);
 window.bound = boundDocument;
-// boundDocument.registerFunction(samples.numberHandler);
