@@ -11,7 +11,7 @@ var bindings = function bindings() {
 
   var collectedFunctions = {};
 
-  function bind(element) {
+  function bindElement(element) {
     var args = element.getAttribute("bindings");
     var context = element.getAttribute("context");
     args = args.split(",").map(function (arg) {
@@ -35,7 +35,7 @@ var bindings = function bindings() {
   }
 
   function initialize() {
-    elements.forEach(bind);
+    elements.forEach(bindElement);
   }
 
   var prototype = {

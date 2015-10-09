@@ -8,7 +8,7 @@ let bindings = function bindings() {
 
   };
 
-  function bind(element) {
+  function bindElement(element) {
     let args = element.getAttribute("bindings");
     let context = element.getAttribute("context");
     args = args.split(",").map(function(arg) {
@@ -32,7 +32,7 @@ let bindings = function bindings() {
   }
 
   function initialize() {
-    elements.forEach(bind);
+    elements.forEach(bindElement);
   }
 
   let prototype = {
