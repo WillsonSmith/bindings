@@ -1,4 +1,6 @@
+let bindings = require("./bindings");
 let samples = {};
+let boundDocument;
 
 samples.numberHandler = function numberHandler(element, context) {
 
@@ -32,7 +34,7 @@ samples.incrementButton = function incrementButton(button, contextFunction, cont
     context[contextFunction].increment();
   });
 };
-samples.decrementButton = function incrementButton(button, contextFunction, context) {
+samples.decrementButton = function decrementButton(button, contextFunction, context) {
   button.addEventListener("click", function() {
     context[contextFunction].decrement();
   });
@@ -47,3 +49,7 @@ samples.incrementSelf = function incrementSelf(button, startValue) {
 };
 
 window.samples = samples;
+boundDocument = bindings();
+boundDocument.registeredFunctions.set([samples.numberHandler, samples.incrementButton, samples.decrementButton, samples.incrementSelf]);
+window.bound = boundDocument;
+// boundDocument.registerFunction(samples.numberHandler);

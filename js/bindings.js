@@ -4,7 +4,11 @@ let bindings = function bindings() {
   let elements = [].slice.call(document.querySelectorAll("[bindings]"));
   let contexts = {};
 
-  elements.forEach(function(element) {
+  let collectedFunctions = {
+
+  };
+
+  function bind(element) {
     let args = element.getAttribute("bindings");
     let context = element.getAttribute("context");
     args = args.split(",").map(function(arg) {
@@ -14,9 +18,7 @@ let bindings = function bindings() {
       }
       return arg;
     });
-
-    let func = eval(`${args.shift()}`);
-
+    let func = collectedFunctions[args.shift()];
     if (context) {
       if (!contexts[context]) {
         contexts[context] = {};
@@ -27,13 +29,29 @@ let bindings = function bindings() {
         func(...args);
       }
     }
+  }
 
-  });
+  function initialize() {
+    elements.forEach(bind);
+  }
 
   let prototype = {
     elements: elements,
     getBoundElements() {
       return elements;
+    },
+    registeredFunctions: {
+      get() {
+        return collectedFunctions;
+      },
+      set(functions) {
+        functions.forEach(function(f) {
+          if (!collectedFunctions[f.name]) {
+            collectedFunctions[f.name] = f;
+          }
+        });
+        initialize();
+      }
     }
   };
 
@@ -41,4 +59,4 @@ let bindings = function bindings() {
 
 };
 
-bindings();
+module.exports = bindings;

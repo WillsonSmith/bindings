@@ -9,7 +9,9 @@ var bindings = function bindings() {
   var elements = [].slice.call(document.querySelectorAll("[bindings]"));
   var contexts = {};
 
-  elements.forEach(function (element) {
+  var collectedFunctions = {};
+
+  function bind(element) {
     var args = element.getAttribute("bindings");
     var context = element.getAttribute("context");
     args = args.split(",").map(function (arg) {
@@ -19,9 +21,7 @@ var bindings = function bindings() {
       }
       return arg;
     });
-
-    var func = eval("" + args.shift());
-
+    var func = collectedFunctions[args.shift()];
     if (context) {
       if (!contexts[context]) {
         contexts[context] = {};
@@ -32,18 +32,35 @@ var bindings = function bindings() {
         func.apply(undefined, _toConsumableArray(args));
       }
     }
-  });
+  }
+
+  function initialize() {
+    elements.forEach(bind);
+  }
 
   var prototype = {
     elements: elements,
     getBoundElements: function getBoundElements() {
       return elements;
+    },
+    registeredFunctions: {
+      get: function get() {
+        return collectedFunctions;
+      },
+      set: function set(functions) {
+        functions.forEach(function (f) {
+          if (!collectedFunctions[f.name]) {
+            collectedFunctions[f.name] = f;
+          }
+        });
+        initialize();
+      }
     }
   };
 
   return prototype;
 };
 
-bindings();
+module.exports = bindings;
 
 },{}]},{},[1]);
